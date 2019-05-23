@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: switch-lb-mutilzone
+spec:
+  selector:
+    app: switch-lb-mutilzone
+  ports:
+    - port: 80
+      targetPort: 80
+  type: NodePort

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: switch-lb-mutilzone
+  labels:
+    app: switch-lb-mutilzone
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: switch-lb-mutilzone
+      labels:
+        app: switch-lb-mutilzone
+    spec:
+      containers:
+        - name: switch-lb-mutilzone
+          image: subaruqui\nginx-lb
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          command:
+            - sed -i -e "s/active_url/web/g" -e "s/backup_url/10.18.21.x/g"
+            - nginx -g "daemon off;"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: switch-lb-mutilzone
